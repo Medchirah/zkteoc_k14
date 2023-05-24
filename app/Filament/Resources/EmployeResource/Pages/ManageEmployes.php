@@ -24,5 +24,9 @@ class ManageEmployes extends ManageRecords
             employeStatsOverview::class,
         ];
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
    
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\device;
 use App\Models\Employe;
 use App\Models\departement;
 use Filament\Resources\Form;
@@ -14,9 +15,13 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use App\Filament\Widgets\StatsOverview;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\EmployeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -31,32 +36,34 @@ class EmployeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-identification';
     protected static ?string $navigationGroup = ' Employes/Departement management';
-    
+    protected static ?string $recordTitleAttribute = 'nom';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nom')
+                TextInput::make('nom')
                 ->required()
                 ->maxLength(255),
-                Select::make('nomDept')
+                Select::make('device_id')
+                ->relationship('device', 'nomDevice')
+                ->options(device::all()->pluck('nomDevice', 'id'))
+                ->searchable(),
+                Select::make('departement_id')
                 ->relationship('departement', 'nomDept')
                 ->options(departement::all()->pluck('nomDept', 'id'))
-                ->searchable()
-                
-                ,
-                FileUpload::make('photo'),
+                ->searchable(),
+                FileUpload::make('photo')->preserveFilenames(),
                 Radio::make('gender')
                  ->options([
                     'Homme' => 'Homme',
                     'Femme' => 'Femme',
                     
                 ]),
-                Forms\Components\TextInput::make('empriente')
+               TextInput::make('empriente')
                     ->required()
                     ->maxLength(255),
-                    Forms\Components\DatePicker::make('date_travail')
+                    DatePicker::make('date_travail')
                     ->required()
                     ,
             ]);
@@ -66,23 +73,25 @@ class EmployeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+               TextColumn::make('id')
                 ->sortable(),
                 
-                Tables\Columns\TextColumn::make('nom')->sortable(),
-                TextColumn::make('nomDept')->sortable(),
+                TextColumn::make('nom')->sortable(),
+                TextColumn::make('device.nomDevice')->sortable(),
+                TextColumn::make('departement.nomDept')->sortable(),
                 ImageColumn::make('photo'),
-                Tables\Columns\TextColumn::make('gender') ,
-                    Tables\Columns\TextColumn::make('empriente'),
-                    Tables\Columns\TextColumn::make('date_travail')
+                TextColumn::make('gender') ,
+                TextColumn::make('empriente'),
+                TextColumn::make('date_travail')
                     ->sortable()
                     ->date(),
-                    Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime(),
                 
             ])
             ->filters([
-                //
+                SelectFilter::make('tous les departements')->relationship('departement', 'nomDept')
+                ->label('tous les departements')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -106,4 +115,5 @@ class EmployeResource extends Resource
             'index' => Pages\ManageEmployes::route('/'),
         ];
     }    
+ 
 }

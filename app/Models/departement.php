@@ -14,4 +14,5 @@ class departement extends Model
     {
         return $this->hasMany(employe::class);
     }
+    
 }

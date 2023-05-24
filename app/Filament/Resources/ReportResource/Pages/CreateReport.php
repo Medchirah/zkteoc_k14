@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateReport extends CreateRecord
 {
     protected static string $resource = ReportResource::class;
+    protected function getCreatedNotificationTitle(): ?string
+{
+    return 'repport created successfully';
 }
+}
+

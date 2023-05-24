@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class rapport extends Model
 {
     use HasFactory;
+    protected $fillable=['tittle',
+                         'description',
+                         'condition',
+                         'request',
+                        ];
 }

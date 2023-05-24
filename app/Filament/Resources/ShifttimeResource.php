@@ -8,7 +8,9 @@ use App\Models\Shifttime;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ShifttimeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,6 +22,7 @@ class ShifttimeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document';
     protected static ?string $navigationGroup = 'shifttime management';
+    
 
     public static function form(Form $form): Form
     {
@@ -59,7 +62,7 @@ class ShifttimeResource extends Resource
                          'warning' => 'reviewing',
                          'success' => 'published',
                          'danger' => 'rejected',
-    ]),
+    ])->searchable(),
                 Tables\Columns\TextColumn::make('date_entre'),
                 Tables\Columns\TextColumn::make('date_sortie'),
                 Tables\Columns\TextColumn::make('p_entre'),
@@ -74,7 +77,7 @@ class ShifttimeResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
-                //
+                SelectFilter::make('shifttime_name')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -90,5 +93,6 @@ class ShifttimeResource extends Resource
         return [
             'index' => Pages\ManageShifttimes::route('/'),
         ];
-    }    
+    }   
+     
 }

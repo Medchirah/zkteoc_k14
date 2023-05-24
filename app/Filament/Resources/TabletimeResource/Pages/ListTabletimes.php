@@ -4,9 +4,9 @@ namespace App\Filament\Resources\TabletimeResource\Pages;
 
 use App\Filament\Resources\TabletimeResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageTabletimes extends ManageRecords
+class ListTabletimes extends ListRecords
 {
     protected static string $resource = TabletimeResource::class;
 

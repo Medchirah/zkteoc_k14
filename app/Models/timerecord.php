@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\employe;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class timerecord extends Model
 {
@@ -12,5 +13,9 @@ class timerecord extends Model
     public function device()
     {
         return $this->belongsTo(device::class);
+    }
+    public function employe()
+    {
+        return $this->belongsTo(employe::class);
     }
 }

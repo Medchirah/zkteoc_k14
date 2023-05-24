@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('timerecords', function (Blueprint $table) {
             $table->id();
-            $table->string('class');
-            $table->string('action');
+            $table->foreignId('employe_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('device_id')->constrained()->cascadeOnDelete();
+           
+            $table->time('time_in');
+            $table->time('time_out');
+            $table->integer('durration');
             $table->timestamps();
         });
     }
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('timerecords');
     }
 };

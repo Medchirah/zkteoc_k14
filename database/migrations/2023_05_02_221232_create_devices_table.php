@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nomDevice');
             $table->string('adress_ip');
             $table->boolean('connect')->default(false);
+            $table->string('port');
             $table->timestamps();
         });
     }

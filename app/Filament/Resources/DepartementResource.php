@@ -8,6 +8,9 @@ use App\Models\Departement;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepartementResource\Pages;
@@ -20,13 +23,13 @@ class DepartementResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-library';
     protected static ?string $navigationGroup = ' Employes/Departement management';
-    protected static ?string $recordTitleAttribute = 'nomDept';
+   
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nomDept')
+                TextInput::make('nomDept')
                     ->required()
                     ->maxLength(255)
                     ->columnSpan(0),
@@ -38,15 +41,16 @@ class DepartementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('nomDept')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('id')->sortable(),
+                TextColumn::make('nomDept')->searchable()->sortable(),
+                TextColumn::make('created_at')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([
-                //
+                SelectFilter::make('tous les departements')
+                ->label('tous les departements')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

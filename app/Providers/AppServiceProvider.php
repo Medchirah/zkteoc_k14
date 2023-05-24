@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Filament::serving(function () {
+            Filament::registerViteTheme('resources/css/filament.css');
             Filament::registerNavigationGroups([
                 NavigationGroup::make()
                      ->label('gestion des employes')
@@ -33,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
                 
             ]);
         });
+        
     }
 }

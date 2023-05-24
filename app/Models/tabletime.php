@@ -2,11 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\employe;
+use App\Models\shifttime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class tabletime extends Model
 {
     use HasFactory;
-    protected $fillable=['shifttime_id','employe_id','employe_nom','shifttime_name','date_debut','date_fin'];
+    protected $fillable=['employe_id','shifttime_id','date_debut','date_fin'];
+    public function employe()
+    {
+        return $this->belongsTo(employe::class, 'employe_id');
+    }
+    public function shifttime()
+    {
+        return $this->belongsTo(shifttime::class, 'shifttime_id');
+    }
 }
